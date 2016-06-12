@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Distance"
+        android:layout_x="38dp"
+        android:layout_y="179dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Velocity"
+        android:layout_x="45dp"
+        android:layout_y="323dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="55dp"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/distance"
+        android:layout_x="128dp"
+        android:layout_y="161dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/velocity"
+        android:layout_x="138dp"
+        android:layout_y="298dp" />
+    <Button
+        android:layout_width="109dp"
+        android:layout_height="50dp"
+        android:id="@+id/send_button"
+        android:layout_x="61dp"
+        android:layout_y="393dp"
+        android:text="Send"
+        android:onClick="Send"
+        />
+
+</AbsoluteLayout>
