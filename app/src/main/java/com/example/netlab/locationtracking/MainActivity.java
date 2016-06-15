@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     //DatagramSocket rSocket = null;
 
     double last_update=0.0;
+
     DatagramPacket rPacket = null;
     byte[] rMessage = new byte[1000];
 
@@ -140,18 +142,36 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         linear_acceleration[1] = event.values[1] - gravity[1];
         linear_acceleration[2] = event.values[2] - gravity[2];
 
+        EditText editTextx = (EditText) findViewById(R.id.xaxis);
+        EditText editTexty = (EditText) findViewById(R.id.yaxis);
+        EditText editTextz = (EditText) findViewById(R.id.zaxis);
 
-        if (connected && System.currentTimeMillis() - last_update >1000 && linear_acceleration[2] > 1.0)
+        editTextx.setText(String.valueOf(linear_acceleration[0]));
+        editTexty.setText(String.valueOf(linear_acceleration[1]));
+        editTextz.setText(String.valueOf(linear_acceleration[2]));
+
+
+        if ( last_update -  System.currentTimeMillis() >= 500 && Math.max( Math.abs(linear_acceleration[0]),Math.abs(linear_acceleration[2]) ) > 1.5)
         {
+            if ( Math.abs(linear_acceleration[0]) < Math.abs(linear_acceleration[2]) )
+            {
+                Toast.makeText(getApplicationContext(),"Moving", Toast.LENGTH_SHORT).show();
+                MyState.sendLocation(gSocket, "Sensor_Device;Z-Location;" + String.valueOf(linear_acceleration[2]));
+            }
+            else
+            {
+                if (linear_acceleration[0] > 0 )
+                {
+                    Toast.makeText(getApplicationContext(),"Moving", Toast.LENGTH_SHORT).show();
+                    MyState.sendLocation(gSocket, "Sensor_Device;X-Location_L;" + String.valueOf(linear_acceleration[2]));
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"Moving", Toast.LENGTH_SHORT).show();
+                    MyState.sendLocation(gSocket, "Sensor_Device;X-Location_R;" + String.valueOf(linear_acceleration[2]));
+                }
+            }
             last_update = System.currentTimeMillis();
-            Toast.makeText(getApplicationContext(),"Moving", Toast.LENGTH_SHORT).show();
-            MyState.sendLocation(gSocket, "Sensor_Device;Z-Location;" + String.valueOf(linear_acceleration[2]));
-        }
-        else if (connected && System.currentTimeMillis() - last_update >1000 &&  linear_acceleration[2] < -1.0)
-        {
-            last_update = System.currentTimeMillis();
-            Toast.makeText(getApplicationContext(),"Moving", Toast.LENGTH_SHORT).show();
-            MyState.sendLocation(gSocket, "Sensor_Device;Z-Location;" + String.valueOf(linear_acceleration[2]));
         }
 
     }
